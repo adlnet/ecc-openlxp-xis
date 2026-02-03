@@ -7,6 +7,39 @@ Learning experience metadata received from XIAs is stored in the Metadata Loadin
 
 XIS can syndicate its composite records to another XIS. One or more facets/dimensions can filter the record-set to transmit a subset of the overall composite record repository. In addition, the transmitted fieldset can be configured to contain redacted values for specified fields when information is considered too sensitive for syndication.
 
+## ECC System Architecture
+
+```mermaid
+---
+title: ECC Connected Systems
+---
+graph TD;
+        subgraph Legend
+                1("System")-->|MVP|2("System");
+                1("System")-.->|Future Planned|2("System");
+        end
+        subgraph External Applications
+                XSR;
+                XSS[XSS/LDSS];
+        end
+        subgraph ECC
+                XIS;
+                XDS;
+                XDSUI[XDS UI];
+                XMS;
+                XMSUI[XMS UI];
+                XIA;
+                XSE;
+        end
+        XSS-->|Schema|XIS & XIA;
+        XIA-->|Courses|XIS;
+        XIS-->|Courses|XMS & XDS & XSE;
+        XSE-->|Courses|XDS;
+        XSR-->|Courses|XIA;
+        XDS-->|Courses|XDSUI;
+        XMS-->|Courses|XMSUI;
+```
+
 ## Workflows
 ### ETL
 ETL pipeline from XIA loads processed metadata ledger and supplemental ledger in a metadata ledger and supplemental ledger of XIS component after a validation. Metadata combined with supplemental metadata provided by an Experience Owner or Experience Manager from XMS also gets stored in XIS. All of them from XIA and XMS finally get merged into XIS's composite ledger after a validation.  
@@ -53,23 +86,23 @@ git clone https://github.com/OpenLXP/openlxp-xis.git
 - Create a `.env` file in the root directory
 - The following environment variables are required:
 
-| Environment Variable      | Description |
-| ------------------------- | ----------- |
-| AWS_ACCESS_KEY_ID         | The Access Key ID for AWS  |
-| AWS_SECRET_ACCESS_KEY     | The Secret Access Key for AWS  |
-| AWS_DEFAULT_REGION        | The region for AWS |
-| CELERY_BROKER_URL         | The URL of the message broker that Celery will use to send and receive messages |
-| CELERY_RESULT_BACKEND     | The backend that Celery will use to store task results |
-| DB_HOST                   | The host name, IP, or docker container name of the database |
-| DB_NAME                   | The name to give the database |
-| DB_PASSWORD               | The password for the user to access the database |
-| DB_ROOT_PASSWORD          | The password for the root user to access the database, should be the same as `DB_PASSWORD` if using the root user |
+| Environment Variable      | Description                                                                                                                 |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| AWS_ACCESS_KEY_ID         | The Access Key ID for AWS                                                                                                   |
+| AWS_SECRET_ACCESS_KEY     | The Secret Access Key for AWS                                                                                               |
+| AWS_DEFAULT_REGION        | The region for AWS                                                                                                          |
+| CELERY_BROKER_URL         | The URL of the message broker that Celery will use to send and receive messages                                             |
+| CELERY_RESULT_BACKEND     | The backend that Celery will use to store task results                                                                      |
+| DB_HOST                   | The host name, IP, or docker container name of the database                                                                 |
+| DB_NAME                   | The name to give the database                                                                                               |
+| DB_PASSWORD               | The password for the user to access the database                                                                            |
+| DB_ROOT_PASSWORD          | The password for the root user to access the database, should be the same as `DB_PASSWORD` if using the root user           |
 | DB_USER                   | The name of the user to use when connecting to the database. When testing use root to allow the creation of a test database |
-| DJANGO_SUPERUSER_EMAIL    | The email of the superuser that will be created in the application |
-| DJANGO_SUPERUSER_PASSWORD | The password of the superuser that will be created in the application |
-| DJANGO_SUPERUSER_USERNAME | The username of the superuser that will be created in the application |
-| LOG_PATH                  | The path to the log file to use |
-| SECRET_KEY_VAL            | The Secret Key for Django |
+| DJANGO_SUPERUSER_EMAIL    | The email of the superuser that will be created in the application                                                          |
+| DJANGO_SUPERUSER_PASSWORD | The password of the superuser that will be created in the application                                                       |
+| DJANGO_SUPERUSER_USERNAME | The username of the superuser that will be created in the application                                                       |
+| LOG_PATH                  | The path to the log file to use                                                                                             |
+| SECRET_KEY_VAL            | The Secret Key for Django                                                                                                   |
 
 ## 4. Deployment
 1. Create the openlxp docker network
@@ -82,7 +115,7 @@ git clone https://github.com/OpenLXP/openlxp-xis.git
     ```
     docker-compose up -d --build
 
-## 5. Configuration for XMS
+## 5. Configuration for XIS
 1. 1. Navigate over to `http://localhost:8080/admin/` in your browser and login to the Django Admin page with the admin credentials set in your `.env` (`DJANGO_SUPERUSER_EMAIL` & `DJANGO_SUPERUSER_PASSWORD`)
 
 2. <u>CORE</u>
@@ -199,11 +232,31 @@ To destroy the created resources, simply run the command below in your terminal:
 
 XIS supports API's endpoints which can get called from other components
 
-1. `http://localhost:8080/api/catalogs/`
+1. `/api/catalogs/`
     
-    This API fetches the names of all course providers
+    This API fetches the names of all course providers in the composite ledger
 
-2. `http://localhost:8080/api/metadata/<str:course_id>/`
+2. `/api/metadata/`
+    
+    This API is for uploading metadata ledger records
+
+3. `/api/supplemental-data/`
+    
+    This API is for uploading supplemental ledger records
+
+4. `/api/metadata/<str:course_id>/`
+    
+    This API fetches the composite ledger object
+
+5. `/api/managed-data/catalogs/`
+    
+    This API fetches the names of all course providers in the metadata ledger
+
+6. `/api/managed-data/catalogs/<str:provider_id>`
+    
+    This API fetches the metadata and supplemental ledger data under a specific catalog/course provider
+
+7. `/api/managed-data/catalogs/<str:provider_id>/<str:course_id>/`
     
     This API fetches or modifies the record of the corresponding course id
 
