@@ -76,13 +76,13 @@ Or copy it into one of these folders to install it system-wide:
 `Python >=3.9` : Download and install it from here [Python](https://www.python.org/downloads/).
 
 
-## 1. Clone the project
+## Clone the project
 Clone the Github repository
 ```
 git clone https://github.com/OpenLXP/openlxp-xis.git
 ```  
 
-## 2. Set up your environment variables
+## Set up your environment variables
 - Create a `.env` file in the root directory
 - The following environment variables are required:
 
@@ -104,7 +104,7 @@ git clone https://github.com/OpenLXP/openlxp-xis.git
 | LOG_PATH                  | The path to the log file to use                                                                                             |
 | SECRET_KEY_VAL            | The Secret Key for Django                                                                                                   |
 
-## 4. Deployment
+## Deployment
 1. Create the openlxp docker network
     Open a terminal and run the following command in the root directory of the project.
     ```
@@ -115,7 +115,7 @@ git clone https://github.com/OpenLXP/openlxp-xis.git
     ```
     docker-compose up -d --build
 
-## 5. Configuration for XIS
+## Configuration for XIS
 1. 1. Navigate over to `http://localhost:8080/admin/` in your browser and login to the Django Admin page with the admin credentials set in your `.env` (`DJANGO_SUPERUSER_EMAIL` & `DJANGO_SUPERUSER_PASSWORD`)
 
 2. <u>CORE</u>
@@ -195,7 +195,7 @@ git clone https://github.com/OpenLXP/openlxp-xis.git
 
                 - `Template`: Select a 'template' from the drop down options set up previously.        
 
-## 6. Running Of XIS Tasks:
+## Running Of XIS Tasks:
 
 ### Running Tasks
 XIS has 3 workflows that can be run.  Consolidation and loading of Metadata and Supplemental Metadata into Compositing Ledger then loading it into XSE.  XIS Upstream Syndication.  And XIS Downstream Syndication.  They can each be triggered 2 ways:
@@ -222,7 +222,7 @@ XIS has 3 workflows that can be run.  Consolidation and loading of Metadata and 
         - `Name` - Short description for this task
         - `Task (registered)`: The workflow to run from the Task (registered) dropdown list.  On the selected time interval celery task will run the task.
 
-## 7. Removing Deployment
+## Removing Deployment
 To destroy the created resources, simply run the command below in your terminal:
     
     
@@ -260,16 +260,16 @@ XIS supports API's endpoints which can get called from other components
     
     This API fetches or modifies the record of the corresponding course id
 
-# Logs
+## Logs
 To check the running of celery tasks, check the logs of application and celery container.
 
 
-# Troubleshooting
+## Troubleshooting
 - If the container builds but crashes or logs an error of unrecognized commands, the issue is usually incorrect line endings. Most IDEs/Text Editors allow changing the line endings, but the dos2unix utility can also be used to change the line endings of `start-app.sh` and `start-server.sh` to LF.
 
 
 - A good basic troubleshooting step is to use `docker-compose down` and then `docker-compose up --build` to rebuild the app image; however, this will delete everything in the database.
 
-# License
+## License
  This project uses the [MIT](http://www.apache.org/licenses/LICENSE-2.0) license.
   
