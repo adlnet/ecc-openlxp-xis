@@ -270,6 +270,10 @@ To check the running of celery tasks, check the logs of application and celery c
 
 - A good basic troubleshooting step is to use `docker-compose down` and then `docker-compose up --build` to rebuild the app image; however, this will delete everything in the database.
 
+## Additional Info
+
+Additional information about ECC can be found in our [ECC wiki](https://github.com/adlnet/ecc-openlxp-xds-ui/wiki)
+
 ## License
  This project uses the [Apache](http://www.apache.org/licenses/LICENSE-2.0) license.
   
