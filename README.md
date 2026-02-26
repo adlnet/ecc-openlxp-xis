@@ -1,7 +1,7 @@
 # OPENLXP-XIS - Experience Index Service 
-The primary funnel for learning experience metadata collected by the XIA components.
+The primary funnel for learning experience metadata collected by the Experience Indexing Agent (XIA) components.
 
-XIS Component is the primary funnel for learning experience metadata collected by the XIA components. In addition, the XIS can receive supplemental learning experience metadata – field name/value overrides and augmentations – from the XMS.
+XIS Component is the primary funnel for learning experience metadata collected by the XIA components. In addition, the XIS can receive supplemental learning experience metadata – field name/value overrides and augmentations – from the [Experience Management Service (XMS)](https://github.com/adlnet/ecc-openlxp-xms).
 
 Learning experience metadata received from XIAs is stored in the Metadata Loading Area and processed asynchronously to enhance overall system performance and scalability. Processed metadata combined with supplemental metadata provided by an Experience Owner or Experience Manager and the "composite record" stored in the Metadata Repository. Metadata Repository records addition/modification events logged to a job queue, and the metadata is then sent to the Experience Search Engine (XSE) for indexing and high-performance location/retrieval.
 
@@ -270,6 +270,10 @@ To check the running of celery tasks, check the logs of application and celery c
 
 - A good basic troubleshooting step is to use `docker-compose down` and then `docker-compose up --build` to rebuild the app image; however, this will delete everything in the database.
 
+## Additional Info
+
+Additional information about ECC can be found in our [ECC wiki](https://github.com/adlnet/ecc-openlxp-xds-ui/wiki)
+
 ## License
- This project uses the [MIT](http://www.apache.org/licenses/LICENSE-2.0) license.
+ This project uses the [Apache](http://www.apache.org/licenses/LICENSE-2.0) license.
   
